@@ -3,7 +3,7 @@ import math
 # Datos del cilindro
 radio = 2.5  # cm
 altura = 10  # cm
-masa = 2.2  # kg
+masa = 20  # kg
 
 # Datos del robot Dobot CR3
 capacidad_maxima = 3  # kg (capacidad máxima de carga del Dobot CR3)
@@ -26,3 +26,5 @@ if masa <= capacidad_maxima:
     print("El robot Dobot CR3 puede levantar el cilindro.")
 else:
     print("El robot Dobot CR3 no puede levantar el cilindro.")
+    
+    
