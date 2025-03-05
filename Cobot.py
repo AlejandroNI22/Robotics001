@@ -53,7 +53,7 @@ IRB_robot = rtb.DHRobot(
         rtb.RevoluteDH(d=0.116, a=0, alpha=-np.pi/2, offset=-np.pi/2, qlim=[-2*np.pi, 2*np.pi]),
         rtb.RevoluteDH(d=0.116, a=0, alpha=np.pi/2, qlim=[-2*np.pi, 2*np.pi]),
         rtb.RevoluteDH(d=0.105, a=0, alpha=0, qlim=[-2*np.pi, 2*np.pi])
-    ], name="ABB-IRB-120-3-0-6", base=SE3(0, 0, 0)
+    ], name="Cobot CR3", base=SE3(0, 0, 0)
 )
 print(IRB_robot)
 T06DH_all = IRB_robot.fkine_all([joint1, joint2, joint3, joint4, joint5, joint6])
