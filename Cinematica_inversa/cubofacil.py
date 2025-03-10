@@ -22,7 +22,6 @@ cubo1 = rtb.DHRobot([
 cubo1.tool=SE3.OA([0, 1, 0],[0, 0, 1])
 cubo1.configurations_str('ru')
 cubo1.qz= [0, 0, 0, 0, 0, 0]
-
 print(cubo1)
 
 cubo1.plot(q=cubo1.qz, limits=[-1,1,-1,1,0,1], eeframe=True, backend='pyplot', shadow=True, jointaxes=True, block=True)
@@ -50,7 +49,6 @@ T = np.array([
     [ 0.2000,  0.1000, 0.0000],
     [-0.1000,  0.1000, 0.0000]
 ])
-
 
 T_tool = SE3.Trans(-0.15, 0, 0.0) * SE3.Trans(T) 
 sol = cubo1.ikine_LM(T_tool, "lu")
