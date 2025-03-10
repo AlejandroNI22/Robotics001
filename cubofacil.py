@@ -31,9 +31,7 @@ cubo1.tool=SE3.OA([0, 1, 0], [0, 0, 1])
 cubo1.configurations_str('ru') #Right, elbow Up
 cubo1.qz = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] #Valores el cero
 
-
 #Puntos en el espacio, X, Y, Z
-#Ojo, debe ser np.array para poderlo pasar a mstraj
 T = np.array([
     [-0.1000, -0.2000, 0.0000],
     [-0.1000, -0.2000, 0.3000],
