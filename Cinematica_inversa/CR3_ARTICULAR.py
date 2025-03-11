@@ -21,53 +21,67 @@ cubo1.tool = SE3.OA([0, 1, 0], [0, 0, 1])
 cubo1.qz = [0, 0, 0, 0, 0, 0]
 print(cubo1)
 
-# Definir configuraciones articulares en grados
-q_list_deg = [
-    np.array([0, 0, 0, 0, 0, 0]),
-    np.array([45, -45, 45, -45, 45, -45]),
-    np.array([-45, 45, -45, 45, -45, 45]),
-    np.array([90, -90, 90, -90, 90, -90]),
-    np.array([-90, 90, -90, 90, -90, 90])
+# Nueva matriz de configuraciones articulares en grados
+new_q_list_deg = [
+    [-3.35, -1.52, -103.32, 14.84, 90.00, -3.35],
+    [30.78, 4.63, -109.26, 14.63, 90.00, 30.78],
+    [30.78, -30.34, -134.02, 74.36, 90.00, 30.78],
+    [-3.35, -32.83, -126.54, 69.36, 90.00, -3.35],
+    [-3.35, -1.52, -103.32, 14.84, 90.00, -3.35],
+    [-2.12, -46.29, -37.30, -6.41, 90.00, -2.12],
+    [-2.12, -58.89, -64.50, 33.39, 90.00, -2.12],
+    [-3.35, -32.83, -126.54, 69.36, 90.00, -3.35],
+    [-3.35, -1.52, -103.32, 14.84, 90.00, -3.35],
+    [-2.12, -46.29, -37.30, -6.41, 90.00, -2.12],
+    [19.30, -40.71, -47.48, -1.82, 90.00, 19.30],
+    [19.30, -55.58, -71.89, 37.46, 90.00, 19.30],
+    [-2.12, -58.89, -64.50, 33.39, 90.00, -2.12],
+    [-2.12, -46.29, -37.30, -6.41, 90.00, -2.12],
+    [19.30, -40.71, -47.48, -1.82, 90.00, 19.30],
+    [19.30, -40.71, -47.48, -1.82, 90.00, 19.30],
+    [30.78, -30.34, -134.02, 74.36, 90.00, 30.78],
+    [19.30, -55.58, -71.89, 37.46, 90.00, 19.30],
+    [19.30, -40.71, -47.48, -1.82, 90.00, 19.30],
+    [30.78, 4.63, -109.26, 14.63, 90.00, 30.78],
+    [-3.35, -1.52, -103.32, 14.84, 90.00, -3.35]
 ]
 
-# Convertir configuraciones articulares a radianes
-q_list = [np.deg2rad(q) for q in q_list_deg]
+# Convertir la nueva matriz de configuraciones articulares a radianes
+new_q_list = [np.deg2rad(q) for q in new_q_list_deg]
 
-# Definir el vector de tiempo
-t = np.linspace(0, 3, 30)
+# Generar trayectorias suaves entre las nuevas configuraciones
+t = np.linspace(0, 1, 50)  # Definir el tiempo para la interpolación
+new_traj = np.concatenate([jtraj(new_q_list[i], new_q_list[i + 1], t).q for i in range(len(new_q_list) - 1)], axis=0)
 
-# Generar trayectorias suaves entre configuraciones
-traj = np.concatenate([jtraj(q_list[i], q_list[i + 1], t).q for i in range(len(q_list) - 1)], axis=0)
+# Visualizar la nueva trayectoria completa
+cubo1.plot(new_traj, limits=[-600,600,-600,600,0,600], eeframe=True, backend='pyplot', shadow=True, jointaxes=True, block=False)
 
-# Visualizar la trayectoria completa
-cubo1.plot(traj, limits=[-600,600,-600,600,0,600], eeframe=True, backend='pyplot', shadow=True, jointaxes=True, block=True)
-
-# Graficar la trayectoria del efector final en el espacio cartesiano
+# Graficar la nueva trayectoria del efector final en el espacio cartesiano
 fig = plt.figure(figsize=(10, 8))
 ax1 = fig.add_subplot(211, projection='3d')
 ax2 = fig.add_subplot(212)
 
-# Trayectoria del efector final
-end_effector_traj = np.array([cubo1.fkine(q).t for q in traj])
-ax1.plot(end_effector_traj[:, 0], end_effector_traj[:, 1], end_effector_traj[:, 2])
-ax1.set_title('Trayectoria del efector final en el espacio cartesiano')
+# Nueva trayectoria del efector final
+new_end_effector_traj = np.array([cubo1.fkine(q).t for q in new_traj])
+ax1.plot(new_end_effector_traj[:, 0], new_end_effector_traj[:, 1], new_end_effector_traj[:, 2])
+ax1.set_title('Nueva trayectoria del efector final en el espacio cartesiano')
 ax1.set_xlabel('X')
 ax1.set_ylabel('Y')
 ax1.set_zlabel('Z')
 
-# Guardar la gráfica de la trayectoria del efector final
-fig.savefig('trayectoria_efector_final.png')
+# Guardar la nueva gráfica de la trayectoria del efector final
+fig.savefig('nueva_trayectoria_efector_final.png')
 
-# Posiciones articulares a lo largo de la trayectoria
-for i in range(traj.shape[1]):
-    ax2.plot(traj[:, i], label=f'Joint {i+1}')
-ax2.set_title('Posiciones articulares a lo largo de la trayectoria')
+# Nuevas posiciones articulares a lo largo de la trayectoria
+for i in range(new_traj.shape[1]):
+    ax2.plot(new_traj[:, i], label=f'Joint {i+1}')
+ax2.set_title('Nuevas posiciones articulares a lo largo de la trayectoria')
 ax2.set_xlabel('Tiempo')
 ax2.set_ylabel('Ángulo (rad)')
 ax2.legend()
 
-# Guardar la gráfica de las posiciones articulares
-fig.savefig('posiciones_articulares.png')
+# Guardar la nueva gráfica de las posiciones articulares
+fig.savefig('nuevas_posiciones_articulares.png')
 
 plt.tight_layout()
 plt.show(block=True)
